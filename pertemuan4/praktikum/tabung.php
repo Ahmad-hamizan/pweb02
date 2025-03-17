@@ -16,17 +16,17 @@ class Tabung
     }
 
     public function getVolume() {
-        $volume = 3.14 * $this->r * $this->r * $this->t;
+        $volume = self::PHI * $this->r * $this->r * $this->t;
         return $volume;
     }
 
     public function getLuasPermukaan() {
-        $luasPermukaan = 2 * 3.14 * $this->r * ($this->r + $this->t);
+        $luasPermukaan = 2 * self::PHI * $this->r * ($this->r + $this->t);
         return $luasPermukaan;
     }
 
     public function Cetak() {
-        echo "Tabung dengan jari-jari " . $this->r . " dan tinggi " . $this->t . " memiliki volume " . $this->getVolume() . " dan luas permukaan " . $this->getLuasPermukaan();
+        echo "Jadi, tabung dengan jari-jari " . $this->r . " dan tinggi " . $this->t . " memiliki volume " . $this->getVolume() . " dan luas permukaan " . $this->getLuasPermukaan();
     }
 }
 ?>
