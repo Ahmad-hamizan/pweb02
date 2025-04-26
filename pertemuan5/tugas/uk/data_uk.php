@@ -1,6 +1,6 @@
 <?php
 // 1. Sertakan file koneksi database
-require_once 'db_koneksi.php';
+require_once '../db_koneksi.php';
 // 2. Definisi query untuk mengambil data pasien
 $sql = "SELECT * FROM unit_kerja ORDER BY id ASC";
 // 3. Eksekusi query
@@ -14,14 +14,14 @@ $query = $dbh->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Unit Kerja</title>
-    <link rel="stylesheet" href="../../src/output.css">
+    <link rel="stylesheet" href="../../../src/output.css">
 </head>
 
 <body class="bg-gray-50">
     <div class="container mx-auto p-4">
         <div class="flex flex-row justify-between items-center px-4 py-2">
             <h2 class="text-2xl font-semibold mb-4">Data Unit Kerja</h2>
-            <a href="form_pasien.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tambah Data</a>
+            <a href="form_uk.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tambah Data</a>
         </div>
 
         <div class="overflow-x-auto px-4 py-4">
@@ -40,7 +40,7 @@ $query = $dbh->query($sql);
                     $nomor = 1;
                     foreach ($query as $row) { ?>
                         <tr class="border-b hover:bg-gray-50">
-                            <td class="py-3 px-6"><?= htmlspecialchars($row->id) ?></td>
+                            <td class="py-3 px-6"><?= $nomor ?></td>
                             <td class="py-3 px-6"><?= htmlspecialchars($row->kode_unit) ?></td>
                             <td class="py-3 px-6"><?= htmlspecialchars($row->nama_unit) ?></td>
                             <td class="py-3 px-6"><?= htmlspecialchars($row->keterangan) ?></td>

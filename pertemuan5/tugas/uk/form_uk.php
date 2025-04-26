@@ -1,5 +1,5 @@
 <?php
-require_once 'db_koneksi.php';
+require_once '../db_koneksi.php';
 
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 $unit_kerja = null;
@@ -18,7 +18,7 @@ if ($id) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $id ? 'Edit' : 'Tambah' ?> Data Unit Kerja</title>
-    <link rel="stylesheet" href="../../src/output.css">
+    <link rel="stylesheet" href="../../../src/output.css">
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">

@@ -1,6 +1,6 @@
 <?php
 // Sertakan file koneksi database
-require_once 'db_koneksi.php';
+require_once '../db_koneksi.php';
 
 // Cek apakah form disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

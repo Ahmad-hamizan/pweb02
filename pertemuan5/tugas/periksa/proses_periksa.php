@@ -1,6 +1,6 @@
 <?php
 // Sertakan file koneksi database
-require_once 'db_koneksi.php';
+require_once '../db_koneksi.php';
 
 // Cek apakah form disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dokter_id = $_POST['dokter_id'] ?? '';
 
     // Validasi data
-    if (empty($tanggal) || empty($berat) || empty($tinggi) || empty($tensi)) {
+    if (empty($tanggal) || empty($tinggi) || empty($tensi)) {
         die("Data penting tidak boleh kosong!");
     }
 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $dbh->prepare($sql);
         // var_dump($sql);
         // exit();
-        $stmt->execute([$pasien, $tanggal, $berat, $tinggi, $tensi, $dokter]);
+        $stmt->execute([$pasien_id, $tanggal, $berat, $tinggi, $tensi, $dokter_id]);
 
         header("Location: data_periksa.php");
         exit();

@@ -1,5 +1,5 @@
 <?php
-require_once 'db_koneksi.php';
+require_once '../db_koneksi.php';
 
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 $paramedik = null;
@@ -18,7 +18,7 @@ if ($id) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $id ? 'Edit' : 'Tambah' ?> Data Paramedik</title>
-    <link rel="stylesheet" href="../../src/output.css">
+    <link rel="stylesheet" href="../../../src/output.css">
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
@@ -70,12 +70,25 @@ if ($id) {
 
             <!-- Kategori -->
             <div>
+                <?php
+                // Ambil definisi ENUM dari kolom kategori
+                $stmt = $dbh->query("SHOW COLUMNS FROM paramedik LIKE 'kategori'");
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $enumValues = explode("','", preg_replace("/(enum|set)\('(.+?)'\)/", "\\2", $row['Type']));
+
+                // Jika ada data paramedik yang sedang diedit
+                $currentKategori = $paramedik->kategori ?? '';
+                ?>
+
                 <label for="kategori" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                <select id="kategori" name="kategori" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <select name="kategori" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
                     <option value="">Pilih Kategori</option>
-                    <option value="dokter" <?= ($paramedik && $paramedik->kategori == 'dokter') ? 'selected' : '' ?>>Dokter</option>
-                    <option value="perawat" <?= ($paramedik && $paramedik->kategori == 'perawat') ? 'selected' : '' ?>>Perawat</option>
-                    <option value="bidan" <?= ($paramedik && $paramedik->kategori == 'bidan') ? 'selected' : '' ?>>Bidan</option>
+                    <?php foreach ($enumValues as $value): ?>
+                        <option value="<?= htmlspecialchars($value) ?>"
+                            <?= ($value == $currentKategori) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($value) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -96,16 +109,15 @@ if ($id) {
             <!-- Unit Kerja -->
             <div>
                 <label for="unitkerja_id" class="block text-sm font-medium text-gray-700 mb-1">Unit Kerja</label>
-                <select id="unitkerja_id" name="unitkerja_id"
+                <select id="unitkerja_id" name="nama_unit" required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">Pilih Unit Kerja</option>
                     <?php
-                    // Koneksi database dan ambil data pasien
-                    $db = new PDO('mysql:host=localhost;dbname=db_puskesmas;charset=utf8mb4', 'root', '');
-                    $query = $db->query("SELECT id, nama_unit FROM unit_kerja");
-                    // $query = $db->query("SELECT id, nama FROM unitkerja WHERE id = ?");
+                    // Ambil data pasien
+                    $query = $dbh->query("SELECT id, nama_unit FROM unit_kerja");
                     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<option value='{$row['id']}'>{$row['nama_unit']}</option>";
+                        $selected = ($paramedik && $paramedik->unitkerja_id == $row['id']) ? 'selected' : '';
+                        echo "<option value='{$row['id']}' {$selected}>{$row['nama_unit']}</option>";
                     }
                     ?>
                 </select>
