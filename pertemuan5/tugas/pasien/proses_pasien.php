@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $gender = $_POST['gender'] ?? '';
     $email = $_POST['email'] ?? '';
     $alamat = $_POST['alamat'] ?? '';
-    $kelurahan_id = $_POST['kelurahan_id'] ?? '';
 
     // Validasi data
     if (empty($kode) || empty($nama) || empty($tmp_lahir) || empty($tgl_lahir) || empty($gender)) {
@@ -23,11 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($proses == "Simpan") {
         // Simpan data baru
-        $sql = "INSERT INTO pasien (kode, nama, tmp_lahir, tgl_lahir, gender, email, alamat, kelurahan_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO pasien (kode, nama, tmp_lahir, tgl_lahir, gender, email, alamat) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $dbh->prepare($sql);
-        // var_dump($kelurahan_id);
         // exit();
-        $stmt->execute([$kode, $nama, $tmp_lahir, $tgl_lahir, $gender, $email, $alamat, $kelurahan]);
+        $stmt->execute([$kode, $nama, $tmp_lahir, $tgl_lahir, $gender, $email, $alamat]);
 
         header("Location: data_pasien.php");
         exit();
@@ -38,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die("ID tidak valid!");
         }
 
-        $sql = "UPDATE pasien SET kode=?, nama=?, tmp_lahir=?, tgl_lahir=?, gender=?, email=?, alamat=?, kelurahan_id=? WHERE id=?";
+        $sql = "UPDATE pasien SET kode=?, nama=?, tmp_lahir=?, tgl_lahir=?, gender=?, email=?, alamat=? WHERE id=?";
         $stmt = $dbh->prepare($sql);
-        $stmt->execute([$kode, $nama, $tmp_lahir, $tgl_lahir, $gender, $email, $alamat, $kelurahan, $id]);
+        $stmt->execute([$kode, $nama, $tmp_lahir, $tgl_lahir, $gender, $email, $alamat, $id]);
 
         header("Location: data_pasien.php");
         exit();

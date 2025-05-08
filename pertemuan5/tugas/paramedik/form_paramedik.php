@@ -7,7 +7,7 @@ $paramedik = null;
 if ($id) {
     $stmt = $dbh->prepare("SELECT * FROM paramedik WHERE id = ?");
     $stmt->execute([$id]);
-    $paramedik = $stmt->fetch();
+    $paramedik = $stmt->fetch(PDO::FETCH_ASSOC); // Menggunakan fetch asosiatif
 }
 ?>
 
@@ -35,7 +35,7 @@ if ($id) {
             <!-- Nama Lengkap -->
             <div>
                 <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                <input type="text" id="nama" name="nama" value="<?= $paramedik ? htmlspecialchars($paramedik->nama) : '' ?>"
+                <input type="text" id="nama" name="nama" value="<?= $paramedik ? htmlspecialchars($paramedik['nama']) : '' ?>"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             </div>
 
@@ -44,11 +44,11 @@ if ($id) {
                 <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
                 <div class="flex space-x-4">
                     <label class="inline-flex items-center">
-                        <input type="radio" name="gender" value="L" <?= ($paramedik && $paramedik->gender == 'L') ? 'checked' : '' ?> class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
+                        <input type="radio" name="gender" value="L" <?= ($paramedik && $paramedik['gender'] == 'L') ? 'checked' : '' ?> class="h-4 w-4 text-blue-600 focus:ring-blue-500" required>
                         <span class="ml-2 text-gray-700">Laki-Laki</span>
                     </label>
                     <label class="inline-flex items-center">
-                        <input type="radio" name="gender" value="P" <?= ($paramedik && $paramedik->gender == 'P') ? 'checked' : '' ?> class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <input type="radio" name="gender" value="P" <?= ($paramedik && $paramedik['gender'] == 'P') ? 'checked' : '' ?> class="h-4 w-4 text-blue-600 focus:ring-blue-500">
                         <span class="ml-2 text-gray-700">Perempuan</span>
                     </label>
                 </div>
@@ -57,14 +57,14 @@ if ($id) {
             <!-- Tempat Lahir -->
             <div>
                 <label for="tmp_lahir" class="block text-sm font-medium text-gray-700 mb-1">Tempat Lahir</label>
-                <input type="text" id="tmp_lahir" name="tmp_lahir" value="<?= $paramedik ? htmlspecialchars($paramedik->tmp_lahir) : '' ?>"
+                <input type="text" id="tmp_lahir" name="tmp_lahir" value="<?= $paramedik ? htmlspecialchars($paramedik['tmp_lahir']) : '' ?>"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             </div>
 
             <!-- Tanggal Lahir -->
             <div>
                 <label for="tgl_lahir" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
-                <input type="date" id="tgl_lahir" name="tgl_lahir" value="<?= $paramedik ? htmlspecialchars($paramedik->tgl_lahir) : '' ?>"
+                <input type="date" id="tgl_lahir" name="tgl_lahir" value="<?= $paramedik ? htmlspecialchars($paramedik['tgl_lahir']) : '' ?>"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             </div>
 
@@ -77,11 +77,11 @@ if ($id) {
                 $enumValues = explode("','", preg_replace("/(enum|set)\('(.+?)'\)/", "\\2", $row['Type']));
 
                 // Jika ada data paramedik yang sedang diedit
-                $currentKategori = $paramedik->kategori ?? '';
+                $currentKategori = $paramedik['kategori'] ?? '';
                 ?>
 
                 <label for="kategori" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                <select name="kategori" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                <select name="kategori" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border" required>
                     <option value="">Pilih Kategori</option>
                     <?php foreach ($enumValues as $value): ?>
                         <option value="<?= htmlspecialchars($value) ?>"
@@ -95,7 +95,7 @@ if ($id) {
             <!-- No Telepon -->
             <div>
                 <label for="no_telp" class="block text-sm font-medium text-gray-700 mb-1">No Telepon</label>
-                <input type="tel" id="no_telp" name="telpon" value="<?= $paramedik ? htmlspecialchars($paramedik->telpon) : '' ?>"
+                <input type="tel" id="no_telp" name="telpon" value="<?= $paramedik ? htmlspecialchars($paramedik['telpon']) : '' ?>"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
@@ -103,21 +103,21 @@ if ($id) {
             <div>
                 <label for="alamat" class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
                 <textarea id="alamat" name="alamat" rows="3"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"><?= $paramedik ? htmlspecialchars($paramedik->alamat) : '' ?></textarea>
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"><?= $paramedik ? htmlspecialchars($paramedik['alamat']) : '' ?></textarea>
             </div>
 
             <!-- Unit Kerja -->
             <div>
                 <label for="unitkerja_id" class="block text-sm font-medium text-gray-700 mb-1">Unit Kerja</label>
-                <select id="unitkerja_id" name="nama_unit" required
+                <select id="unitkerja_id" name="unitkerja_id" required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">Pilih Unit Kerja</option>
                     <?php
-                    // Ambil data pasien
+                    // Ambil data unit kerja
                     $query = $dbh->query("SELECT id, nama_unit FROM unit_kerja");
                     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                        $selected = ($paramedik && $paramedik->unitkerja_id == $row['id']) ? 'selected' : '';
-                        echo "<option value='{$row['id']}' {$selected}>{$row['nama_unit']}</option>";
+                        $selected = ($paramedik && $paramedik['unitkerja_id'] == $row['id']) ? 'selected' : '';
+                        echo "<option value='{$row['id']}' {$selected}>".htmlspecialchars($row['nama_unit'])."</option>";
                     }
                     ?>
                 </select>

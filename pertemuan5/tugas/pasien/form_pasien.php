@@ -89,20 +89,6 @@ if ($id) {
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"><?= $pasien ? htmlspecialchars($pasien->alamat) : '' ?></textarea>
             </div>
 
-            <!-- Kelurahan -->
-            <div>
-                <label for="kelurahan_id" class="block text-sm font-medium text-gray-700 mb-1">Kelurahan</label>
-                <select id="kelurahan_id" name="kelurahan_id"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Pilih Kelurahan</option>
-                    <option value="beji" <?= ($pasien && $pasien->kelurahan_id == '1') ? 'selected' : '' ?>>Beji</option>
-                    <option value="cimanggis" <?= ($pasien && $pasien->kelurahan_id == '2') ? 'selected' : '' ?>>Cimanggis</option>
-                    <option value="sukmajaya" <?= ($pasien && $pasien->kelurahan_id == '3') ? 'selected' : '' ?>>Sukmajaya</option>
-                    <option value="sawangan" <?= ($pasien && $pasien->kelurahan_id == '4') ? 'selected' : '' ?>>Sawangan</option>
-                    <option value="Lainnya" <?= ($pasien && $pasien->kelurahan_id == 'Lainnya') ? 'selected' : '' ?>>Lainnya</option>
-                </select>
-            </div>
-
             <!-- Submit Button -->
             <div class="pt-2">
                 <button type="submit" name="proses" value="<?= $id ? 'Update' : 'Simpan' ?>"

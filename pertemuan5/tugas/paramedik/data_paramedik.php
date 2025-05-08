@@ -1,11 +1,11 @@
 <?php
 // 1. Sertakan file koneksi database
 require_once '../db_koneksi.php';
-// 2. Definisi query untuk mengambil data pasien
-$sql = "SELECT d.*, uk.nama_unit as unit_kerja
-        FROM paramedik d
-        LEFT JOIN unit_kerja uk ON d.id = uk.id
-        ORDER BY d.id DESC";
+// 2. Definisi query untuk mengambil data paramedik
+$sql = "SELECT p.*, uk.nama_unit as unit_kerja
+        FROM paramedik p
+        LEFT JOIN unit_kerja uk ON p.unitkerja_id = uk.id
+        ORDER BY p.id DESC";
 // 3. Eksekusi query
 $query = $dbh->query($sql);
 ?>
@@ -49,14 +49,14 @@ $query = $dbh->query($sql);
                     while ($row = $query->fetch(PDO::FETCH_ASSOC)): ?>
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $nomor++ ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $row['nama'] ?? '-' ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $row['gender'] ?? '-' ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $row['tmp_lahir'] ?? '-' ?> kg</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $row['tgl_lahir'] ?? '-' ?> cm</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $row['kategori'] ?? '-' ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $row['telpon'] ?? '-' ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $row['alamat'] ?? '-' ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $row['unit_kerja'] ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= htmlspecialchars($row['nama'] ?? '-') ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($row['gender'] ?? '-') ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($row['tmp_lahir'] ?? '-') ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($row['tgl_lahir'] ?? '-') ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($row['kategori'] ?? '-') ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($row['telpon'] ?? '-') ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($row['alamat'] ?? '-') ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= htmlspecialchars($row['unit_kerja'] ?? '-') ?></td>
                             <td class="px-6 py-4 space-x-2">
                                 <a href="form_paramedik.php?id=<?= $row['id'] ?>" class="text-blue-500 hover:text-blue-700">Edit</a>
                                 <a href="proses_paramedik.php?id_hapus=<?= $row['id'] ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Delete</a>

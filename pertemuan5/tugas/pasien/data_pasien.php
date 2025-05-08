@@ -39,7 +39,6 @@ $query = $dbh->query($sql);
                         <th class="py-3 px-6">Jenis Kelamin</th>
                         <th class="py-3 px-6">Email</th>
                         <th class="py-3 px-6">Alamat</th>
-                        <!-- <th class="py-3 px-6">Kelurahan</th> -->
                         <th class="py-3 px-6">Aksi</th>
                     </tr>
                 </thead>
