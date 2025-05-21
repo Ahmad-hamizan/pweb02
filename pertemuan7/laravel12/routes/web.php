@@ -1,51 +1,30 @@
 <?php
 
-use App\Http\Controllers\MahasiswaController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\KelurahanController;
+use App\Http\Controllers\PasienController;
+use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get(
-    '/profil',
-    [MahasiswaController::class, 'show']
-);
+Route::get('/kelurahan', [KelurahanController::class, 'index'])->name('kelurahan.index');
 
-Route::get('about', function () {
-    return view("about");
-});
-
-Route::get('salam/{nim}/{nama}', function ($nim, $nama) {
-    return "Data Mahasiswa dengan NIM $nim dan Nama $nama   " . PHP_EOL;
-});
-
-Route::get('produk', function () {
-    return view('produk.index');
-});
-
-Route::get('produk/{id}', function ($id) {
-    return view('produk.index', ['idproduk' => $id]);
-});
-
-Route::get('profile', function () {
-    return view('profile', ['prodi' => 'Teknik Informatika']);
-});
+Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
 
 Route::get(
-    'prodi',
-    [ProdiController::class, 'show']
-);
-
-Route::get(
-    'books',
+    '/books',
     [BookController::class, 'index']
 );
 
-Route::get('produks', [
-    ProdukController::class,
-    'index'
-]);
+Route::get(
+    'books/create',
+    [BookController::class, 'create']
+);
+
+Route::post(
+    'books/store',
+    [BookController::class, 'store']
+);
